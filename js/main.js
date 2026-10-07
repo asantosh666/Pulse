@@ -12,6 +12,12 @@ import { AudioEngine, } from './audio.js';
 import { HandTracker } from './hands.js';
 import { Visuals, GOLD, TEAL } from './visuals.js';
 
+// Temporary diagnostic: surface any boot error on screen (week-1 spike).
+window.addEventListener('error', (e) => {
+  const el = document.getElementById('status');
+  if (el) el.textContent = 'Boot error: ' + (e.message || e.error || 'unknown');
+});
+
 const ROUND_S = 45;
 const REST_S = 10;
 const WARMUP_S = 10;
@@ -61,6 +67,7 @@ function setStatus(t) { statusEl.textContent = t; }
 init();
 
 async function init() {
+  try {
   if (!('xr' in navigator)) { setStatus('WebXR is not available in this browser.'); return; }
   let ok = false;
   try { ok = await navigator.xr.isSessionSupported('immersive-vr'); } catch (e) { ok = false; }
@@ -86,6 +93,9 @@ async function init() {
   });
   // Audio lookahead scheduler: schedules kick/hat/bass just ahead of time.
   setInterval(pumpAudio, 25);
+  } catch (e) {
+    setStatus('Init failed: ' + (e && e.message ? e.message : e));
+  }
 }
 
 async function enter() {
