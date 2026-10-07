@@ -37,23 +37,31 @@
   Week-1 validation spike: 3 rounds &times; 45s at 100 / 110 / 120 BPM.</p>
 </div>
 <div id="status"></div>
-<script type="module" src="js/main.js?v=5"></script>
+<script type="module" src="js/main.js?v=6"></script>
 <script>
 // Plain (non-module) diagnostic: runs even if the game module fails to load.
+// v6: net-checks every file the game needs, bypassing cache, and reports.
 window.addEventListener('DOMContentLoaded', () => {
   const status = document.getElementById('status');
   const btn = document.querySelector('#enter .tap');
-  // 1) If the game module hasn't booted in 4s, say so loudly.
-  setTimeout(() => {
-    if (!window.__pulse_booted && status) {
-      status.textContent = 'Game code did not start (failed to load).';
-    }
-  }, 4000);
-  // 2) Confirm taps reach the page at all.
+  const results = [];
+  const render = () => { if (status) status.textContent = 'v6 net: ' + (results.join(' ') || 'checking…'); };
+  render();
+  [
+    ['main', 'js/main.js?v=6'],
+    ['audio', 'js/audio.js'],
+    ['hands', 'js/hands.js'],
+    ['visuals', 'js/visuals.js'],
+    ['three', 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js'],
+  ].forEach(([k, u]) => {
+    fetch(u, {cache: 'no-store'}).then(r => { results.push(k + ':' + r.status); render(); })
+      .catch(() => { results.push(k + ':FAIL'); render(); });
+  });
+  setTimeout(() => { if (window.__pulse_booted && status) status.textContent = ''; }, 8000);
   document.getElementById('enter').addEventListener('click', () => {
     if (!window.__pulse_entered) {
       if (btn) btn.textContent = 'TAP REGISTERED…';
-      if (status) status.textContent = 'Tap reached the page. Waiting for the game…';
+      render();
     }
   });
 });
