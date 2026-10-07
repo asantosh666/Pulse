@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>PULSE — bare-hand rhythm boxing</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #04050a;
+    font-family: system-ui, -apple-system, sans-serif; }
+  #app { position: fixed; inset: 0; }
+  #enter { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 18px; background: radial-gradient(ellipse at 50% 40%, #0b1024 0%, #04050a 70%);
+    color: #eef1ff; z-index: 10; cursor: pointer; text-align: center; padding: 24px; }
+  #enter.hidden { display: none; }
+  #enter h1 { margin: 0; font-size: 52px; letter-spacing: 14px; font-weight: 800;
+    background: linear-gradient(180deg, #ffd27f, #ff9d5c); -webkit-background-clip: text;
+    background-clip: text; color: transparent; }
+  #enter p { margin: 0; font-size: 17px; opacity: 0.75; max-width: 520px; line-height: 1.5; }
+  #enter .tap { font-size: 20px; font-weight: 700; letter-spacing: 2px; opacity: 0.95;
+    border: 1px solid rgba(255,210,127,0.5); border-radius: 999px; padding: 12px 34px; }
+  #status { position: fixed; left: 12px; bottom: 10px; color: #8a93a8; font-size: 12px; z-index: 11;
+    max-width: 70vw; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+<div id="app"></div>
+<div id="enter">
+  <h1>PULSE</h1>
+  <p>Bare-hand rhythm boxing. No controllers — your fists are the controllers.<br>
+  Punch the incoming orbs on the beat. Gold = right hand, teal = left.</p>
+  <div class="tap">TAP TO ENTER</div>
+  <p style="font-size:13px">Best in the Quest browser with hand tracking enabled.<br>
+  Week-1 validation spike: 3 rounds &times; 45s at 100 / 110 / 120 BPM.</p>
+</div>
+<div id="status"></div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
