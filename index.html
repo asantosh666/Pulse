@@ -37,6 +37,26 @@
   Week-1 validation spike: 3 rounds &times; 45s at 100 / 110 / 120 BPM.</p>
 </div>
 <div id="status"></div>
-<script type="module" src="js/main.js?v=3"></script>
+<script type="module" src="js/main.js?v=4"></script>
+<script>
+// Plain (non-module) diagnostic: runs even if the game module fails to load.
+window.addEventListener('DOMContentLoaded', () => {
+  const status = document.getElementById('status');
+  const btn = document.querySelector('#enter .tap');
+  // 1) If the game module hasn't booted in 4s, say so loudly.
+  setTimeout(() => {
+    if (!window.__pulse_booted && status) {
+      status.textContent = 'Game code did not start (failed to load).';
+    }
+  }, 4000);
+  // 2) Confirm taps reach the page at all.
+  document.getElementById('enter').addEventListener('click', () => {
+    if (!window.__pulse_entered) {
+      if (btn) btn.textContent = 'TAP REGISTERED…';
+      if (status) status.textContent = 'Tap reached the page. Waiting for the game…';
+    }
+  });
+});
+</script>
 </body>
 </html>
