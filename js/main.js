@@ -67,6 +67,9 @@ function setStatus(t) { statusEl.textContent = t; }
 init();
 
 async function init() {
+  // Attach the tap handler FIRST so the button always responds, even if the
+  // XR support check below hangs on some browsers.
+  overlay.addEventListener('click', enter);
   try {
   if (!('xr' in navigator)) { setStatus('WebXR is not available in this browser.'); return; }
   let ok = false;
@@ -99,6 +102,7 @@ async function init() {
 }
 
 async function enter() {
+  if (!renderer) { setStatus('Still starting up — tap again in a moment.'); return; }
   overlay.classList.add('hidden');
   try {
     if (!audio.ready) await audio.init();
@@ -109,7 +113,7 @@ async function enter() {
   }
   let session;
   try {
-    session = await renderer.xr.requestSession('immersive-vr', {
+    session = await navigator.xr.requestSession('immersive-vr', {
       requiredFeatures: ['local'],
       optionalFeatures: ['hand-tracking'],
     });
