@@ -38,13 +38,13 @@
 </div>
 <div id="status"></div>
 <script>
-// v7: runs during parsing, BEFORE the deferred game module. Captures the real
+// v8: runs during parsing, BEFORE the deferred game module. Captures the real
 // module evaluation error, which the in-module handler can never see.
 window.__pulse_errors = [];
 window.addEventListener('error', (e) => {
   window.__pulse_errors.push((e.message || 'unknown') + ' @' + (e.filename || '?').split('/').pop() + ':' + (e.lineno || '?'));
   const status = document.getElementById('status');
-  if (status) status.textContent = 'v7 err: ' + window.__pulse_errors.join(' ;; ');
+  if (status) status.textContent = 'v8 err: ' + window.__pulse_errors.join(' ;; ');
 });
 </script>
 <script type="module" src="js/main.js?v=8"></script>
@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const btn = document.querySelector('#enter .tap');
   setTimeout(() => {
     if (!window.__pulse_booted && status && !window.__pulse_errors.length) {
-      status.textContent = 'v7: module silently dead, no error captured';
+      status.textContent = 'v8: module silently dead, no error captured';
     }
   }, 5000);
   document.getElementById('enter').addEventListener('click', () => {

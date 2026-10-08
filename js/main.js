@@ -87,7 +87,6 @@ async function init() {
   visuals = new Visuals();
   audio = new AudioEngine();
 
-  overlay.addEventListener('click', enter);
   window.addEventListener('resize', () => {
     if (!renderer) return;
     xrCamera.aspect = window.innerWidth / window.innerHeight;
@@ -202,7 +201,7 @@ function finishWarmup() {
   audio.blip(audio.now() + 0.05, 660, 0.12);
   setTimeout(() => audio.blip(audio.now() + 0.05, 990, 0.15), 180);
   visuals.showPrompt(`LOCKED IN: ${threshold.toFixed(1)} m/s\nround 1 incoming`, { px: 42 });
-  setTimeout(() => { if (state === 'warmup') startRound(0); }, 2200);
+  setTimeout(() => { if (state === 'warmupDone') startRound(0); }, 2200);
   state = 'warmupDone'; // brief interstitial; startRound fires from the timeout
 }
 
