@@ -48,7 +48,6 @@ let beatDur = 0.6;
 let beatTimes = [];           // audio-clock beat times for the current phase
 let schedIdx = 0;             // next beat index for the audio scheduler
 let orbBeats = [];            // {beatTime, hand, spawned, resolved, hit, viz}
-let roundEndT = 0;
 let warmupBpm = 100;
 
 let threshold = DEFAULT_THRESHOLD;
