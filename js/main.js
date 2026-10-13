@@ -191,11 +191,14 @@ function startWarmup(bpm) {
 }
 
 function finishWarmup() {
-  // Adaptive threshold: 55% of measured peak, clamped, with a sane
+  // Adaptive threshold: 45% of measured peak, clamped, with a sane
   // fallback if the user barely punched during warmup.
+  // v10 fix: was 0.55x peak capped at 3.5 — a couple of huge warmup punches
+  // set the bar above sustainable punch speed, so detection "died" after the
+  // first hits. 0.45x + 3.0 cap keeps it reachable; 1.6 floor avoids phantoms.
   const peaks = [...trackers.values()].map(t => t.peak);
   const peak = Math.max(0, ...peaks);
-  threshold = peak < 1.5 ? DEFAULT_THRESHOLD : Math.min(3.5, Math.max(1.8, 0.55 * peak));
+  threshold = peak < 1.5 ? DEFAULT_THRESHOLD : Math.min(3.0, Math.max(1.6, 0.45 * peak));
   for (const tr of trackers.values()) tr.reset();
   clearOrbs();
   audio.blip(audio.now() + 0.05, 660, 0.12);
