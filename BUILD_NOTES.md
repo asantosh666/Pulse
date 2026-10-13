@@ -39,7 +39,7 @@ the validation output — screenshot it after each playtest.
 ## Tuning knobs (all in code, all fair game)
 | Knob | Default | Where |
 |---|---|---|
-| Punch threshold (adaptive) | 0.55 × warmup peak, clamp 1.8–3.5 m/s, fallback 2.5 | main.js `finishWarmup` |
+| Punch threshold (adaptive) | 0.45 × warmup peak, clamp 1.6–3.0 m/s, fallback 2.5 | main.js `finishWarmup` |
 | Provisional threshold (select/warmup) | 2.5 m/s | main.js `DEFAULT_THRESHOLD` |
 | Hit timing window | ±120 ms | main.js `HIT_WIN` |
 | Hit distance | 0.35 m from hit-plane slot | main.js `HIT_DIST` |
